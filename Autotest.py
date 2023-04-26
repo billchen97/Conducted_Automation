@@ -1,16 +1,16 @@
 from testPlanManager import *
-from  Local_DUT_Control import DUTManager
 from time import sleep
 from  PowerMeter import  *
 class Autotest:
     power_meter = None
-    def __init__(self,test_type,path,chamber,comport):
+    chamber = None
+    def __init__(self,test_type,path,chamber):
         if test_type == "WIFI":
-            self.DUT = DUTManager.DUT()#local test
             self.test_plan_manager = WifiTestPlanManager()
             self.test_plan_manager.loadTestPlan(path)
             self.test_plan = self.test_plan_manager.test_plan
-            self.comport = comport
+            self.chamber = chamber
+
         # to be continue for other test
 
 
@@ -23,13 +23,10 @@ class Autotest:
         res_pass = False
         while not res_pass:
             print("Testing: {}".format(signal.note))
-            self.DUT.send(commandDict=signal.signal_parameter,port=self.comport)
+
             sleep(1)
-
-
-
-
         return
+
     def check_pass(self):
         return
     def connect_power_meter(self):
